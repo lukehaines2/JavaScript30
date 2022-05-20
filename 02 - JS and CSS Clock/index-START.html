@@ -80,32 +80,28 @@
 
     function setDate() {
       const now = new Date();
+
       const seconds = now.getSeconds();
-      const secondsDegrees = ((seconds / 60) * 360) + 90;
+      const secondsDegrees = (seconds * 6) + 90;
 
       const mins = now.getMinutes();
-      const minsDegrees = ((mins / 60) * 360) + 90;
+      const minsDegrees = (mins * 6) + 90;
 
       const hours = now.getHours();
-      const hoursDegrees = ((hours / 60) * 360) + 90;
+      const hoursDegrees = (hours * 6) + 90;
 
       secondHand.style.transform = `rotate(${secondsDegrees}deg)`;
       minsHand.style.transform = `rotate(${minsDegrees}deg)`;
       hourHand.style.transform = `rotate(${hoursDegrees}deg)`;
 
       // Stop jerky transition to 0 if at 60 secs.
-      if (secondsDegrees === 90) {
-        const hands = document.querySelectorAll('.hand');
-        hands.forEach(key => key.style.transition = "none");
+      const hands = document.querySelectorAll('.hand');
+      if (seconds === 0) {
+        hands.forEach(key => key.style.transitionDuration = "0s");
       }
-
       // Add the transitions back on once the tick is 1 second.
-      if (secondsDegrees === 96) {
-        const hands = document.querySelectorAll('.hand');
-        hands.forEach(key => {
-          key.style.transition = "all 0.05s";
-          key.style.transitionTimingFunction = "cubic-bezier(0.1, 2.7, 0.58, 1)";
-        });
+      if (seconds === 1) {
+        hands.forEach(key => key.style.transitionDuration = "0.05s");
       }
     }
 
