@@ -92,6 +92,21 @@
       secondHand.style.transform = `rotate(${secondsDegrees}deg)`;
       minsHand.style.transform = `rotate(${minsDegrees}deg)`;
       hourHand.style.transform = `rotate(${hoursDegrees}deg)`;
+
+      // Stop jerky transition to 0 if at 60 secs.
+      if (secondsDegrees === 90) {
+        const hands = document.querySelectorAll('.hand');
+        hands.forEach(key => key.style.transition = "none");
+      }
+
+      // Add the transitions back on once the tick is 1 second.
+      if (secondsDegrees === 96) {
+        const hands = document.querySelectorAll('.hand');
+        hands.forEach(key => {
+          key.style.transition = "all 0.05s";
+          key.style.transitionTimingFunction = "cubic-bezier(0.1, 2.7, 0.58, 1)";
+        });
+      }
     }
 
     setInterval(setDate, 1000);
