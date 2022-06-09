@@ -11,14 +11,30 @@
 <body>
   <script>
     document.addEventListener('DOMContentLoaded', function () {
+      // Find the visible slider icons using the aria-hidden=false flag and the custom class .sectors-slider
       const sliderLis = document.querySelectorAll('.sectors-slider li[aria-hidden="false"]');
 
-      function handleClick(e) {
-        console.log('L17 === e', e);
-        const automotiveText = document.querySelector(".sector-text-automotive");
-        automotiveText.classList.toggle('show-text');
-      }
+      function getNameFromIconClick(icon) {
+        for (let i = 0; i < icon.classList.length; i++) {
+          if (icon.classList[i].match(/^sector-icon-/)) {
+            // Go through the classList on this element
+            // ...and remove the "sector-icon-" prefix to find the intended sector name
+            const sectorName = icon.classList[i].split("sector-icon-").pop();
 
+            return sectorName;
+          }
+        }
+      };
+
+      function handleClick() {
+        const icon = this.querySelector('.sector-icon');
+        const iconName = getNameFromIconClick(icon);
+
+        const sectorTextEl = document.querySelector(`.sector-text-${iconName}`);
+        sectorTextEl.classList.toggle('show-text');
+      };
+
+      // Set event listener for each VISIBLE icon in the slider, using the aria-hidden=false attribute
       sliderLis.forEach(li => li.addEventListener('click', handleClick));
     });
   </script>
