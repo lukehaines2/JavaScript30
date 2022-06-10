@@ -33,13 +33,13 @@
 
       function toggleSectorVisibility(newSector) {
         if (!visibleSector) {
-          // If no sector text visible, then update visibleSector with clicked sector name
+          // If no sector text visible, then update visibleSector with user selection.
           visibleSector = newSector;
         } else if (visibleSector && visibleSector !== newSector) {
-          // Close old sector text first
+          // Close old sector text.
           const sectorTextEl = document.querySelector(`.sector-text-${visibleSector}`);
           sectorTextEl.classList.toggle('show-text');
-          // Update visibleSector with new user selection 
+          // Update visibleSector with NEW user selection.
           visibleSector = newSector;
         } else {
           // The sector is the same as before, so lets close it and update the visible sector back to false.
@@ -56,8 +56,6 @@
         const iconName = getNameFromIconClick(icon);
 
         toggleSectorVisibility(iconName);
-        // const sectorTextEl = document.querySelector(`.sector-text-${iconName}`);
-        // sectorTextEl.classList.toggle('show-text');
       };
 
 
