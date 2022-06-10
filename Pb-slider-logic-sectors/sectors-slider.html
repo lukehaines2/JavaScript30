@@ -14,6 +14,9 @@
       // Find the visible slider icons using the aria-hidden=false flag and the custom class .sectors-slider
       const sliderLis = document.querySelectorAll('.sectors-slider li[aria-hidden="false"]');
 
+      let sliderMoved = false;
+
+
       function getNameFromIconClick(icon) {
         for (let i = 0; i < icon.classList.length; i++) {
           if (icon.classList[i].match(/^sector-icon-/)) {
@@ -26,7 +29,9 @@
         }
       };
 
-      function handleClick() {
+
+      function handleClick(e) {
+        e.preventDefault();
         const icon = this.querySelector('.sector-icon');
         const iconName = getNameFromIconClick(icon);
 
@@ -34,8 +39,34 @@
         sectorTextEl.classList.toggle('show-text');
       };
 
+
+      function handleTouchEnd(e) {
+        e.preventDefault();
+        console.log('L44 === Hitting touch END', e);
+        if (sliderMoved) {
+          console.log('L48 === RETURNING COS MOVED');
+          sliderMoved = false;
+          return
+        }
+        console.log('L52 === still running here');
+
+        const icon = this.querySelector('.sector-icon');
+        const iconName = getNameFromIconClick(icon);
+
+        const sectorTextEl = document.querySelector(`.sector-text-${iconName}-mob`);
+        sectorTextEl.classList.toggle('show-text');
+      };
+
+      function handleTouchMove(e) {
+        e.preventDefault();
+        sliderMoved = true;
+        return
+      }
+
       // Set event listener for each VISIBLE icon in the slider, using the aria-hidden=false attribute
-      sliderLis.forEach(li => li.addEventListener('click', handleClick));
+      // sliderLis.forEach(li => li.addEventListener('click', handleClick));
+      sliderLis.forEach(li => li.addEventListener('touchend', handleTouchEnd));
+      sliderLis.forEach(li => li.addEventListener('touchmove', handleTouchMove));
     });
   </script>
 </body>
