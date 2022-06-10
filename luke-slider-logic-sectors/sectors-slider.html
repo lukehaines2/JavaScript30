@@ -11,7 +11,7 @@
 <body>
   <script>
     document.addEventListener('DOMContentLoaded', function () {
-      // Find the visible slider icons using the aria-hidden=false flag and the custom class .sectors-slider
+      // Find the visible slider icons using the ~~~aria-hidden=false~~~ flag and the custom class .sectors-slider
       const sliderLis = document.querySelectorAll('.sectors-slider li');
       const mobileSliderLis = document.querySelectorAll('.sectors-slider li');
 
@@ -69,8 +69,8 @@
 
         const icon = this.querySelector('.sector-icon');
         const iconName = getNameFromIconClick(icon);
-        const sectorTextEl = document.querySelector(`.sector-text-${iconName}-mob`);
-        sectorTextEl.classList.toggle('show-text');
+
+        toggleSectorVisibility(`${iconName}-mob`);
       };
 
 
@@ -82,7 +82,7 @@
       }
 
 
-      // Set event listener for each VISIBLE icon in the slider, using the aria-hidden=false attribute
+      // Set event listener for each VISIBLE icon in the slider, using the ~~~aria-hidden=false~~~ attribute
       sliderLis.forEach(li => li.addEventListener('click', handleClick));
       // Set event listeners for ALL icons in the slider. This may be pretty heavy for the DOM.
       mobileSliderLis.forEach(li => li.addEventListener('touchend', handleTouchEnd));
