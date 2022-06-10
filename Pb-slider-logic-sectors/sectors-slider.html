@@ -13,8 +13,10 @@
     document.addEventListener('DOMContentLoaded', function () {
       // Find the visible slider icons using the aria-hidden=false flag and the custom class .sectors-slider
       const sliderLis = document.querySelectorAll('.sectors-slider li[aria-hidden="false"]');
+      const mobileSliderLis = document.querySelectorAll('.sectors-slider li');
 
       let sliderMoved = false;
+      let visibleSector = false;
 
 
       function getNameFromIconClick(icon) {
@@ -42,31 +44,32 @@
 
       function handleTouchEnd(e) {
         e.preventDefault();
-        console.log('L44 === Hitting touch END', e);
+
         if (sliderMoved) {
-          console.log('L48 === RETURNING COS MOVED');
           sliderMoved = false;
           return
         }
-        console.log('L52 === still running here');
 
         const icon = this.querySelector('.sector-icon');
         const iconName = getNameFromIconClick(icon);
-
         const sectorTextEl = document.querySelector(`.sector-text-${iconName}-mob`);
         sectorTextEl.classList.toggle('show-text');
       };
 
+
       function handleTouchMove(e) {
         e.preventDefault();
         sliderMoved = true;
-        return
+        // Remove erroneous desktop click handlers
+        sliderLis.forEach(li => li.removeEventListener('click', handleClick));
       }
 
+
       // Set event listener for each VISIBLE icon in the slider, using the aria-hidden=false attribute
-      // sliderLis.forEach(li => li.addEventListener('click', handleClick));
-      sliderLis.forEach(li => li.addEventListener('touchend', handleTouchEnd));
-      sliderLis.forEach(li => li.addEventListener('touchmove', handleTouchMove));
+      sliderLis.forEach(li => li.addEventListener('click', handleClick));
+      // Set event listeners for ALL icons in the slider. This may be pretty heavy for the DOM.
+      mobileSliderLis.forEach(li => li.addEventListener('touchend', handleTouchEnd));
+      mobileSliderLis.forEach(li => li.addEventListener('touchmove', handleTouchMove));
     });
   </script>
 </body>
