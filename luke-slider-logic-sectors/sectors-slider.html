@@ -31,10 +31,20 @@
         }
       };
 
+      function toggleBrandGrids() {
+        const brandGrids = document.querySelectorAll('.brand-grid-full');
+
+        brandGrids.forEach(el => {
+          console.log('L38 === el.hidden', el.hidden);
+        });
+        brandGrids.forEach(el => el.classList.toggle('slide-active'));
+      }
+
       function toggleSectorVisibility(newSector) {
         if (!visibleSector) {
           // If no sector text visible, then update visibleSector with user selection.
           visibleSector = newSector;
+          toggleBrandGrids();
         } else if (visibleSector && visibleSector !== newSector) {
           // Close old sector text.
           const sectorTextEl = document.querySelector(`.sector-text-${visibleSector}`);
@@ -44,6 +54,7 @@
         } else {
           // The sector is the same as before, so lets close it and update the visible sector back to false.
           visibleSector = false;
+          toggleBrandGrids();
         };
         const sectorTextEl = document.querySelector(`.sector-text-${newSector}`);
         sectorTextEl.classList.toggle('show-text');
@@ -82,8 +93,11 @@
       }
 
 
+      // DESKTOP
       // Set event listener for each VISIBLE icon in the slider, using the ~~~aria-hidden=false~~~ attribute
       sliderLis.forEach(li => li.addEventListener('click', handleClick));
+
+      // MOBILE
       // Set event listeners for ALL icons in the slider. This may be pretty heavy for the DOM.
       mobileSliderLis.forEach(li => li.addEventListener('touchend', handleTouchEnd));
       mobileSliderLis.forEach(li => li.addEventListener('touchmove', handleTouchMove));
